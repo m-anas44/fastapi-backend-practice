@@ -43,26 +43,26 @@ const LoginForm = () => {
   };
 
   return (
-    <form className="grid place-items-center h-screen">
-      <div className="max-w-md p-4 border rounded-lg shadow-lg bg-white">
-        <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
+    <form className="grid place-items-center h-screen bg-gray-50">
+      <div className="p-8 text-center space-y-4 bg-white shadow-lg rounded-xl max-w-sm w-full">
+        <h2 className="text-2xl font-bold">Login</h2>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full mb-3 p-2 border rounded"
+          className="border border-gray-300 p-2 rounded-md w-full focus:ring-2 focus:ring-blue-500 outline-none"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-3 p-2 border rounded"
+          className="border border-gray-300 p-2 rounded-md w-full focus:ring-2 focus:ring-blue-500 outline-none"
         />
         <button
           onClick={handleLogin}
-          className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 disabled:opacity-50 transition"
         >
           Login
         </button>

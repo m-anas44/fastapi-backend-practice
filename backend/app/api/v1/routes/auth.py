@@ -8,7 +8,7 @@ from app.core.security import hash_password, compare_password, create_access_tok
 from app.utils.api_error import ApiError
 from app.utils.api_response import ApiResponse
 from app.core.deps import get_current_user
-from app.utils.helper_func import generate_mfa_secret, generate_qr_code
+from app.utils.helper_func import generate_mfa_secret
 from app.core.config import setting
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -84,15 +84,14 @@ async def mfa_setup(current_user=Depends(get_current_user)):
     if not current_user.mfa_secret:
         secret = generate_mfa_secret()
         current_user.mfa_secret = secret
-        await current_user.save()   # <-- THIS is where error occurred
+        await current_user.save()
 
     uri = pyotp.totp.TOTP(current_user.mfa_secret).provisioning_uri(
         name=current_user.name,
         issuer_name="TestApp.ai"
     )
-    qr = generate_qr_code(uri)
 
-    return ApiResponse(200, {"qr": qr, "secret": current_user.mfa_secret})
+    return ApiResponse(200, {"uri": uri, "secret": current_user.mfa_secret}, "URI returned successfully")
 
 @router.post("/mfa/enable")
 async def mfa_enable(code: str = Body(..., embed=True), current_user = Depends(get_current_user)):
